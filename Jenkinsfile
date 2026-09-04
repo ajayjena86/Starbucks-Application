@@ -25,17 +25,14 @@ pipeline {
                 sh "docker build -t starbucks ."
             }
         }
-        stage('Tag & Push to DockerHub') {
-    steps {
-        script {
-            withDockerRegistry(
-                credentialsId: 'dockerhub-credentials',
-                url: 'https://index.docker.io/v1/'
-            ) {
-                sh '''
-                    docker tag starbucks ajayjena8/starbucks:latest
-                    docker push ajayjena8/starbucks:latest
-                '''
+        stage("Tag & Push to DockerHub") {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker') {
+                        sh "docker tag starbucks ajayjena8/starbucks:latest"
+                        sh "docker push ajayjena8/starbucks:latest"
+                    }
+                }
             }
         }
     }
